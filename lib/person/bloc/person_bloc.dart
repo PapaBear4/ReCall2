@@ -15,7 +15,7 @@ class PersonBloc extends Bloc<PersonEvent, PersonState> {
         final List<Person> people = []; // Fetch real data here
         emit(PersonLoaded(persons: people));
       } catch (e) {
-        emit(const PersonError('Failed to load people'));
+        emit( PersonError('Failed to load people'));
       }
     });
 
@@ -23,7 +23,7 @@ class PersonBloc extends Bloc<PersonEvent, PersonState> {
       emit( PersonLoading());
       try {
         await Future.delayed(const Duration(milliseconds: 500));
-        final List<Person> dummyPeople = List.generate(20, (index) {
+        final List<Person> dummyPeople = List.generate(3, (index) {
           return Person(
             id: index + 1,
             firstName: 'FirstName ${index + 1}',
@@ -33,7 +33,7 @@ class PersonBloc extends Bloc<PersonEvent, PersonState> {
         });
         emit(PersonLoaded(persons: dummyPeople));
       } catch (e) {
-        emit(const PersonError('Failed to load dummy people'));
+        emit( PersonError('Failed to load dummy people'));
       }
     });
   }
