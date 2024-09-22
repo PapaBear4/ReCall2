@@ -1,79 +1,39 @@
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ReCall2/person/models/models.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'person_event.dart';
 part 'person_state.dart';
 
 class PersonBloc extends Bloc<PersonEvent, PersonState> {
-  PersonBloc() : super(PersonInitial()) {
-    /*on<LoadPerson>((event, emit) async {
-      emit(PersonLoading());
+  PersonBloc() : super(const PersonInitial()) {
+    on<LoadPeople>((event, emit) async {
+      emit( PersonLoading());
       try {
-        // TODO: Load person data (e.g., from a repository)
-        // await _personRepository.getPerson(event.id); 
-        final person = Person( // Replace with actual data fetching
-          id: event.id,
-          firstName: 'John',
-          lastName: 'Doe',
-          birthday: DateTime(1990, 01, 01),
-        );
-        emit(PersonLoaded(person));
+        // Replace with actual data fetching logic later
+        await Future.delayed(const Duration(milliseconds: 500)); 
+        final List<Person> people = []; // Fetch real data here
+        emit(PersonLoaded(persons: people));
       } catch (e) {
-        emit(PersonError('Failed to load person'));
-      }
-    });*/
-    on<LoadPerson>((event, emit) {
-      emit(PersonLoading());
-      // Simulate data fetching delay
-      Future.delayed(const Duration(milliseconds: 500), () {
-        final dummyPersons = [
-          Person(
-              id: 1,
-              firstName: 'Alice',
-              lastName: 'Smith',
-              birthday: DateTime(1990, 5, 15)),
-          Person(
-              id: 2,
-              firstName: 'Bob',
-              lastName: 'Johnson',
-              birthday: DateTime(1985, 10, 22)),
-          Person(
-              id: 3,
-              firstName: 'Charlie',
-              lastName: 'Brown',
-              birthday: DateTime(1998, 3, 8)),
-        ];
-        emit(PersonLoaded(
-            dummyPersons[0])); // Assuming you only load one person for now
-      });
-    });
-
-
-    on<UpdatePerson>((event, emit) {
-      emit(PersonLoaded(event.person)); 
-    });
-
-    on<CreatePerson>((event, emit) async {
-      emit(PersonCreating()); // Optional state to indicate creation in progress
-      try {
-        // TODO: Implement logic to create a new person 
-        // final newPerson = await _personRepository.createPerson(event.person);
-        // emit(PersonCreated(newPerson)); //  Optional state for successful creation
-        emit(PersonLoaded(event.person));
-      } catch (e) {
-        emit(PersonError('Failed to create person.'));
+        emit(const PersonError('Failed to load people'));
       }
     });
-    on<DeletePerson>((event, emit) async {
-      emit(PersonDeleting()); // Optional state to indicate deletion in progress
+
+    on<LoadDummyPeople>((event, emit) async {
+      emit( PersonLoading());
       try {
-        // TODO: Implement logic to delete a person
-        // await _personRepository.deletePerson(event.id);
-        // emit(PersonDeleted()); // Optional state for successful deletion 
+        await Future.delayed(const Duration(milliseconds: 500));
+        final List<Person> dummyPeople = List.generate(20, (index) {
+          return Person(
+            id: index + 1,
+            firstName: 'FirstName ${index + 1}',
+            lastName: 'LastName ${index + 1}',
+            birthday: DateTime.now().subtract(Duration(days: 365 * (20 + index))),
+          );
+        });
+        emit(PersonLoaded(persons: dummyPeople));
       } catch (e) {
-        emit(PersonError('Failed to delete person.'));
+        emit(const PersonError('Failed to load dummy people'));
       }
     });
   }

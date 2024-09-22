@@ -19,17 +19,18 @@ class PersonInitial extends PersonState {
 class PersonLoading extends PersonState {}
 
 class PersonLoaded extends PersonState {
-  final Person person;
-  final bool isLoading;
-  final bool isModified;
-
-  const PersonLoaded(this.person,
-      {this.isLoading = false, this.isModified = false});
-
-  @override
-  List<Object?> get props => [person, isLoading, isModified];
-}
-
+      final List<Person> persons;
+      final bool isLoading;
+      final bool isModified;
+    
+      const PersonLoaded(
+          {this.isLoading = false,
+          this.isModified = false,
+          required this.persons});
+    
+      @override
+      List<Object?> get props => [persons, isLoading, isModified];
+    }
 class PersonError extends PersonState {
   final String message;
   final Exception? error;

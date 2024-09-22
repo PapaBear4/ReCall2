@@ -1,2 +1,2 @@
-export 'person_details.dart';
-export 'person_list.dart';
+export 'person_view.dart';
+export 'people_list.dart';

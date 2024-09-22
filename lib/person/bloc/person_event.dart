@@ -1,12 +1,3 @@
-
-/*
-FetchPersons
-AddPerson
-UpdatePerson
-DeletePerson
-*/
-
-
 part of 'person_bloc.dart';
 
 abstract class PersonEvent extends Equatable {
@@ -47,5 +38,26 @@ class DeletePerson extends PersonEvent {
   @override
   List<Object> get props => [id];
 }
+
+class LoadPeople extends PersonEvent {
+  // No need for parameters since you're loading all people
+
+  const LoadPeople();
+
+  @override
+  List<Object> get props => []; // No properties to compare for equality
+}
+
+class LoadDummyPeople extends PersonEvent {
+  final int numberOfPeople; 
+
+  const LoadDummyPeople({required this.numberOfPeople});
+
+  @override
+  List<Object> get props => [numberOfPeople];
+}
+
+
+
 
 
