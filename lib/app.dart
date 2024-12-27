@@ -8,8 +8,8 @@ class ReCall2 extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return const MaterialApp(
-      title: 'Person Management App', 
-      home: PersonPage(), // Set PersonList as the home screen
+      title: 'Relationship Management App', 
+      home: PersonPage(), // Entry point for relationship management
     );
   }
 }
