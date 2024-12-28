@@ -10,6 +10,8 @@ class Contact extends Equatable {
   final int id;
   final String firstName;
   final String lastName;
+  /// Stored as a DateTime object. You can create a DateTime object in various ways,
+  /// for example: `DateTime(1996, 5, 31)` or `DateTime.parse('1996-05-31')`. 
   final DateTime birthday;
   final ContactImportance importance;
   // ... other fields could be added here
