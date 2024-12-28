@@ -5,11 +5,11 @@ import 'package:ReCall2/contact/contact.dart';
 import 'package:ReCall2/repositories/contact_repository.dart';
 
 void main() {
-  runApp(Recall2());
+  runApp(ReCall2());
 }
 
-class Recall2 extends StatelessWidget {
-  const Recall2({super.key});
+class ReCall2 extends StatelessWidget {
+  const ReCall2({super.key});
 
   @override
   Widget build(BuildContext context) {
