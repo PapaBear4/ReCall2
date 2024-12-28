@@ -1,3 +1,4 @@
+import 'package:ReCall2/contact/view/contact_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ReCall2/contact/contact.dart';
