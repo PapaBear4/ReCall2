@@ -1,15 +1,25 @@
-import 'package:ReCall2/contact/view/contact_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ReCall2/contact/contact.dart';
+import 'package:ReCall2/repositories/contact_repository.dart';
 
-class ReCall2 extends StatelessWidget {
-  const ReCall2({super.key});
+void main() {
+  runApp(Recall2());
+}
+
+class Recall2 extends StatelessWidget {
+  const Recall2({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    return const MaterialApp(
-      title: 'Relationship Management App', 
-      home: ContactPage(), // Entry point for relationship management
+    return MaterialApp(
+      title: 'Contact App',
+      home: BlocProvider(
+        create: (context) => ContactBloc(
+          contactRepository: ContactRepository(),
+        )..add(LoadContacts()),
+        child: ContactScreen(),
+      ),
     );
   }
 }

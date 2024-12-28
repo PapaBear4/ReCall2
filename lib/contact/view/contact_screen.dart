@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ReCall2/contact/view/contact_list.dart';
 import 'package:ReCall2/relationship/relationship.dart';
 
-class ContactPage extends StatelessWidget {
-  const ContactPage({super.key});
+class ContactScreen extends StatelessWidget {
+  const ContactScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
