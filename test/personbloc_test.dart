@@ -15,17 +15,22 @@ void main() {
               id: 1,
               firstName: 'FirstName 1',
               lastName: 'LastName 1',
-              birthday: DateTime.now().subtract(const Duration(days: 365 * 20))),
+              birthday: DateTime.now().subtract(const Duration(days: 365 * 20)),
+              importance: ContactImportance.High,),
+              
           Contact(
               id: 2,
               firstName: 'FirstName 2',
               lastName: 'LastName 2',
-              birthday: DateTime.now().subtract(const Duration(days: 365 * 21))),
+              birthday: DateTime.now().subtract(const Duration(days: 365 * 21)),
+              importance: ContactImportance.High,),
+              
           Contact(
               id: 3,
               firstName: 'FirstName 3',
               lastName: 'LastName 3',
-              birthday: DateTime.now().subtract(const Duration(days: 365 * 22))),
+              birthday: DateTime.now().subtract(const Duration(days: 365 * 22)),
+              importance: ContactImportance.High,),
         ]),
       ]  //expect
     );

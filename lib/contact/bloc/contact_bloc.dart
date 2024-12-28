@@ -29,6 +29,7 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
             firstName: 'FirstName ${index + 1}',
             lastName: 'LastName ${index + 1}',
             birthday: DateTime.now().subtract(Duration(days: 365 * (20 + index))),
+            importance: ContactImportance.High,
           );
         });
         emit(ContactLoaded(contacts: dummyContacts));
