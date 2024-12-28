@@ -4,56 +4,47 @@ abstract class ContactState extends Equatable {
   const ContactState();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class ContactInitial extends ContactState {
-  final bool isLoading;
-
-  const ContactInitial({this.isLoading = false});
-
-  @override
-  List<Object?> get props => [isLoading];
+  const ContactInitial();
 }
 
 class ContactLoading extends ContactState {}
 
 class ContactLoaded extends ContactState {
-      final List<Contact> contacts;
-      final bool isLoading;
-      final bool isModified;
-    
-      const ContactLoaded(
-          {this.isLoading = false,
-          this.isModified = false,
-          required this.contacts});
-    
-      @override
-      List<Object?> get props => [contacts, isLoading, isModified];
-    }
+  final List<Contact> contacts;
+  const ContactLoaded({required this.contacts});
+
+  @override
+  List<Object> get props => [contacts];
+}
+
 class ContactError extends ContactState {
-  final String message;
-  final Exception? error;
-  final StackTrace? stackTrace;
-  //final VoidCallback? retryAction; // Function to retry
-
-  const ContactError(
-    this.message, {
-    this.error,
-    this.stackTrace,
-    /*this.retryAction*/
-  });
+  final String message; // Add message parameter
+  const ContactError(this.message); // Update constructor
 
   @override
-  List<Object?> get props => [message, error, stackTrace];
+  List<Object> get props => [message];
 }
 
-class ContactCreating extends ContactState {}
-class ContactCreated extends ContactState {
-  final Contact contact; // The newly created contact
-  const ContactCreated(this.contact);
+class ContactsLoading extends ContactState {}
+
+class ContactsLoaded extends ContactState {
+  final List<Contact> contacts;
+
+  const ContactsLoaded(this.contacts);
+
   @override
-  List<Object> get props => [contact];
+  List<Object> get props => [contacts];
 }
-class ContactDeleting extends ContactState {}
-class ContactDeleted extends ContactState {}
+
+class ContactsError extends ContactState {
+  final String? message;
+
+  const ContactsError({this.message});
+
+  @override
+  List<Object> get props => [message ?? ""];
+}
