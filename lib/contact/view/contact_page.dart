@@ -1,11 +1,11 @@
-//import 'package:ReCall2/person/bloc/person_bloc.dart';
+//import 'package:ReCall2/contact/bloc/contact_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ReCall2/person/view/people_list.dart';
+import 'package:ReCall2/contact/view/contact_list.dart';
 import 'package:ReCall2/relationship/relationship.dart';
 
-class PersonPage extends StatelessWidget {
-  const PersonPage({super.key});
+class ContactPage extends StatelessWidget {
+  const ContactPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class PersonPage extends StatelessWidget {
             if (state is RelationshipLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is RelationshipLoaded) {
-              return PersonListView(
+              return ContactListView(
                   relationships: state
                       .relationships); // Pass relationships to the list view
             } else if (state is RelationshipError) {
