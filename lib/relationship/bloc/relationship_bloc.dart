@@ -13,9 +13,9 @@ class RelationshipBloc extends Bloc<RelationshipEvent, RelationshipState> {
         // TODO: Add relationship to data store
         // For now, just emit a loaded state with a dummy list
         const relationships = [
-          Relationship(person1Id: '1', person2Id: '2', relationshipType: 'Friend', startDate: null, endDate: null),
-          Relationship(person1Id: '1', person2Id: '3', relationshipType: 'Colleague', startDate: null, endDate: null),
-          Relationship(person1Id: '2', person2Id: '4', relationshipType: 'Family', startDate: null, endDate: null),
+          Relationship(contact1Id: '1', contact2Id: '2', relationshipType: 'Friend', startDate: null, endDate: null),
+          Relationship(contact1Id: '1', contact2Id: '3', relationshipType: 'Colleague', startDate: null, endDate: null),
+          Relationship(contact1Id: '2', contact2Id: '4', relationshipType: 'Family', startDate: null, endDate: null),
           // Add more dummy relationships here...
         ];
         emit(const RelationshipLoaded(relationships)); 

@@ -1,4 +1,4 @@
-import 'package:ReCall2/person/view/person_page.dart';
+import 'package:ReCall2/contact/view/contact_page.dart';
 import 'package:flutter/material.dart';
 
 class ReCall2 extends StatelessWidget {
@@ -9,7 +9,7 @@ class ReCall2 extends StatelessWidget {
 
     return const MaterialApp(
       title: 'Relationship Management App', 
-      home: PersonPage(), // Entry point for relationship management
+      home: ContactPage(), // Entry point for relationship management
     );
   }
 }

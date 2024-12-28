@@ -26,11 +26,11 @@ class UpdateRelationship extends RelationshipEvent {
 
 
 class DeleteRelationship extends RelationshipEvent {
-  final String person1Id;
-  final String person2Id;
+  final String contact1Id;
+  final String contact2Id;
 
-  const DeleteRelationship({required this.person1Id, required this.person2Id});
+  const DeleteRelationship({required this.contact1Id, required this.contact2Id});
 
   @override
-  List<Object> get props => [person1Id, person2Id];
+  List<Object> get props => [contact1Id, contact2Id];
 }

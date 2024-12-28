@@ -1,27 +1,27 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ReCall2/person/person.dart';
+import 'package:ReCall2/contact/contact.dart';
 
 void main() {
-  group('PersonBloc', () {
-    blocTest<PersonBloc, PersonState>(
-      'emits [PersonLoading, PersonLoaded] when LoadDummyPeople is added',
-      build: () => PersonBloc(),
-      act: (bloc) => bloc.add(const LoadDummyPeople(numberOfPeople: 5)),
+  group('ContactBloc', () {
+    blocTest<ContactBloc, ContactState>(
+      'emits [ContactLoading, ContactLoaded] when LoadDummyContacts is added',
+      build: () => ContactBloc(),
+      act: (bloc) => bloc.add(const LoadDummyContacts(numberOfContacts: 5)),
       expect: () => [
-        PersonLoading(),
-        PersonLoaded(persons: [
-          Person(
+        ContactLoading(),
+        ContactLoaded(contacts: [
+          Contact(
               id: 1,
               firstName: 'FirstName 1',
               lastName: 'LastName 1',
               birthday: DateTime.now().subtract(const Duration(days: 365 * 20))),
-          Person(
+          Contact(
               id: 2,
               firstName: 'FirstName 2',
               lastName: 'LastName 2',
               birthday: DateTime.now().subtract(const Duration(days: 365 * 21))),
-          Person(
+          Contact(
               id: 3,
               firstName: 'FirstName 3',
               lastName: 'LastName 3',
