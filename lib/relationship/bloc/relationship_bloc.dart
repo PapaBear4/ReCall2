@@ -8,9 +8,26 @@ part 'relationship_state.dart';
 class RelationshipBloc extends Bloc<RelationshipEvent, RelationshipState> {
   RelationshipBloc() : super(RelationshipInitial()) {
     on<AddRelationship>((event, emit) async {
-      emit(RelationshipLoading());
+      emit( RelationshipLoading());
       try {
         // TODO: Add relationship to data store
+        // For now, just emit a loaded state with a dummy list
+        const relationships = [
+          Relationship(person1Id: '1', person2Id: '2', relationshipType: 'Friend', startDate: null, endDate: null),
+          Relationship(person1Id: '1', person2Id: '3', relationshipType: 'Colleague', startDate: null, endDate: null),
+          Relationship(person1Id: '2', person2Id: '4', relationshipType: 'Family', startDate: null, endDate: null),
+          // Add more dummy relationships here...
+        ];
+        emit(const RelationshipLoaded(relationships)); 
+      } catch (e) {
+        emit(RelationshipError(e.toString())); // Cannot be const since it takes a variable
+      }
+    });
+
+    on<UpdateRelationship>((event, emit) async {
+      emit( RelationshipLoading());
+      try {
+         // TODO: Update relationship in data store
         // For now, just emit a loaded state with an empty list
         emit(const RelationshipLoaded([])); 
       } catch (e) {
@@ -18,25 +35,14 @@ class RelationshipBloc extends Bloc<RelationshipEvent, RelationshipState> {
       }
     });
 
-    on<UpdateRelationship>((event, emit) async {
-      emit(RelationshipLoading());
-      try {
-         // TODO: Update relationship in data store
-        // For now, just emit a loaded state with an empty list
-        emit(const RelationshipLoaded([]));
-      } catch (e) {
-        emit(RelationshipError(e.toString())); // Cannot be const since it takes a variable
-      }
-    });
-
     on<DeleteRelationship>((event, emit) async {
-      emit(RelationshipLoading());
+      emit( RelationshipLoading());
       try {
         // TODO: Delete relationship from data store
         // For now, just emit a loaded state with an empty list
-        emit(RelationshipLoaded([]));
+        emit(const RelationshipLoaded([]));
       } catch (e) {
-        emit(RelationshipError(e.toString()));
+        emit(RelationshipError(e.toString())); 
       }
     });
   }
