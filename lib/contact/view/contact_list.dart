@@ -12,9 +12,9 @@ class ContactListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ContactBloc, ContactState>(
       builder: (context, state) {
-        if (state is ContactLoading) {
+        if (state is ContactsLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state is ContactLoaded) {
+        } else if (state is ContactsLoaded) {
           return ListView.builder(
             itemCount: state.contacts.length,
             itemBuilder: (context, index) {
@@ -29,8 +29,10 @@ class ContactListView extends StatelessWidget {
               );
             },
           );
-        } else if (state is ContactError) {
-          return Center(child: Text(state.message));
+        } else if (state is ContactsError) {
+          return Center(
+              child: Text(
+                  'Error: ${state.message ?? "An unknown error occurred."}'));
         } else {
           return const Center(child: Text('Unknown state'));
         }
