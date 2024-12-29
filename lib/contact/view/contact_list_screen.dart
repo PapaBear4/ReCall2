@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ReCall2/contact/bloc/contact_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:ReCall2/utils/date_time_helper.dart';
 
 // This widget displays a list of contacts and allows users to interact with them.
 class ContactListScreen extends StatelessWidget {
@@ -40,15 +41,44 @@ class ContactListScreen extends StatelessWidget {
                 return ListTile(
                   // Display the contact's full name.
                   title: Text(
-                      "${contact.firstName} ${contact.lastName}"), // Display the contact's full name.
+                    "${contact.firstName} ${contact.lastName}",
+                  ), // Display the contact's full name.
                   // Display the contact's birthday in MM/dd/yyyy format.
-                  subtitle: Text(DateFormat('MM/dd/yyyy').format(
-                      contact.birthday)), // Display the contact's birthday.
-                  // Add a DropdownButton to allow changing the contact's importance.
-                  trailing: Text(contact.frequency
-                      .toString()
-                      .split('.')
-                      .last), // Display the contact's frequency as text.
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(DateFormat('MM/dd/yyyy').format(contact.birthday)),
+                      Text (
+                          'Last Contacted: ${formatLastContacted(contact.lastContacted)}'),
+                    ],
+                  ),
+                  trailing: ElevatedButton(
+                    onPressed: () {
+                      var updatedLastContacted = DateTime.now();
+                      
+                      if (updatedLastContacted.isBefore(contact.lastContacted ?? DateTime(1900))) {
+                        // Handle future date by setting it to now and notifying user.
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Last contacted date was in the future. Setting to now.'),
+                          ),
+                        );
+                      }
+                      
+                      // Update UI to display 'Today' immediately
+                      // This utilizes the date_time_helper and displays the
+                      // formatted date, in this case 'Today'.
+                      'Last Contacted: ${formatLastContacted(DateTime.now())}';
+
+                      context.read<ContactBloc>().add(UpdateContact(
+                              contact.copyWith(
+                                lastContacted: updatedLastContacted,
+                              ),
+                            ),
+                          );
+                    },
+                    child: const Text('Update'),
+                  ),
                 );
               },
             ); // Display a list of contacts.

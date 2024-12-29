@@ -1,4 +1,5 @@
 import '../contact/models/contact.dart';
+import 'dart:math';
 
 class ContactRepository {
   Future<List<Contact>> getContacts() async {
@@ -9,6 +10,8 @@ class ContactRepository {
         lastName: 'Smith',
         birthday: DateTime(1996, 5, 31),
         frequency: ContactFrequency.Weekly,
+        lastContacted:
+            DateTime.now().subtract(Duration(days: Random().nextInt(365))),
       ),
       Contact(
         id: 2,
@@ -16,6 +19,8 @@ class ContactRepository {
         lastName: 'Connor',
         birthday: DateTime(1985, 8, 12),
         frequency: ContactFrequency.Monthly,
+        lastContacted:
+            DateTime.now().subtract(Duration(days: Random().nextInt(365))),
       ),
       Contact(
         id: 3,
@@ -23,6 +28,8 @@ class ContactRepository {
         lastName: 'Bond',
         birthday: DateTime(1962, 3, 24),
         frequency: ContactFrequency.Yearly,
+        lastContacted:
+            DateTime.now().subtract(Duration(days: Random().nextInt(365))),
       ),
       Contact(
         id: 4,
@@ -30,6 +37,8 @@ class ContactRepository {
         lastName: 'Ripley',
         birthday: DateTime(1979, 11, 5),
         frequency: ContactFrequency.Daily,
+        lastContacted:
+            DateTime.now().subtract(Duration(days: Random().nextInt(365))),
       ),
       Contact(
         id: 5,
@@ -37,6 +46,8 @@ class ContactRepository {
         lastName: 'McFly',
         birthday: DateTime(1968, 6, 9),
         frequency: ContactFrequency.BiWeekly,
+        lastContacted:
+            DateTime.now().subtract(Duration(days: Random().nextInt(365))),
       ),
       Contact(
         id: 6,
@@ -44,6 +55,8 @@ class ContactRepository {
         lastName: 'Doe',
         birthday: DateTime(1980, 1, 15),
         frequency: ContactFrequency.Weekly,
+        lastContacted:
+            DateTime.now().subtract(Duration(days: Random().nextInt(365))),
       ),
       Contact(
         id: 7,
@@ -51,13 +64,16 @@ class ContactRepository {
         lastName: 'Parker',
         birthday: DateTime(2001, 8, 10),
         frequency: ContactFrequency.Monthly,
+        lastContacted:
+            DateTime.now().subtract(Duration(days: Random().nextInt(365))),
       ),
       Contact(
         id: 8,
         firstName: 'Bruce',
         lastName: 'Wayne',
         birthday: DateTime(1975, 4, 29),
-        frequency: ContactFrequency.Quarterly, 
+        frequency: ContactFrequency.Quarterly,
+        lastContacted: null,
       ),
       Contact(
         id: 9,
@@ -65,6 +81,7 @@ class ContactRepository {
         lastName: 'Prince',
         birthday: DateTime(1990, 7, 20),
         frequency: ContactFrequency.Never,
+        lastContacted: null,
       ),
       Contact(
         id: 10,
@@ -72,6 +89,7 @@ class ContactRepository {
         lastName: 'Kent',
         birthday: DateTime(1983, 2, 18),
         frequency: ContactFrequency.Yearly,
+        lastContacted: null,
       ),
     ];
 

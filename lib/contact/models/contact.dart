@@ -23,6 +23,7 @@ class Contact extends Equatable {
   /// for example: `DateTime(1996, 5, 31)` or `DateTime.parse('1996-05-31')`.
   final DateTime birthday;
   final ContactFrequency frequency;
+  final DateTime? lastContacted;
   // ... other fields could be added here
 
   // Constructor for the contact class, requiring all attributes to be provided
@@ -32,6 +33,7 @@ class Contact extends Equatable {
     required this.lastName,
     required this.birthday,
     required this.frequency,
+    required this.lastContacted,
     // ... other fields
   });
 
@@ -42,6 +44,7 @@ class Contact extends Equatable {
     String? lastName,
     DateTime? birthday,
     ContactFrequency? frequency,
+    DateTime? lastContacted,
     // ... other fields
   }) {
     // Return a new contact object with updated values or the original values if null
@@ -51,6 +54,7 @@ class Contact extends Equatable {
       lastName: lastName ?? this.lastName,
       birthday: birthday ?? this.birthday,
       frequency: frequency ?? this.frequency,
+      lastContacted: lastContacted ?? this.lastContacted,
       // ... other fields
     );
   }
@@ -63,6 +67,7 @@ class Contact extends Equatable {
         lastName,
         birthday,
         frequency,
+        lastContacted,
         /* ... other fields*/
       ];
 }
