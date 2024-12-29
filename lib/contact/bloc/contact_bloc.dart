@@ -24,7 +24,7 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
         try {
           // Call the getContacts method of the contactRepository to fetch the contacts.
           final contacts = await contactRepository.getContacts();
-          // Emit the ContactsLoaded state with the fetched contacts to indicate that the contacts have been loaded successfully.
+          // Emit the ContactsLoaded state with the fetched contacts to indicate that the contacts have been loaded successfully..
           emit(ContactsLoaded(contacts));
           // If an error occurs during the process, catch the error and emit the ContactsError state with the error message.
         } catch (e) {

@@ -18,7 +18,7 @@ void main() {
                   lastName: 'LastName 1',
                   birthday:
                       DateTime.now().subtract(const Duration(days: 365 * 20)),
-                  importance: ContactImportance.High,
+                  frequency: ContactFrequency.High,
                 ),
                 Contact(
                   id: 2,
@@ -26,7 +26,7 @@ void main() {
                   lastName: 'LastName 2',
                   birthday:
                       DateTime.now().subtract(const Duration(days: 365 * 21)),
-                  importance: ContactImportance.High,
+                  frequency: ContactFrequency.High,
                 ),
                 Contact(
                   id: 3,
@@ -34,7 +34,7 @@ void main() {
                   lastName: 'LastName 3',
                   birthday:
                       DateTime.now().subtract(const Duration(days: 365 * 22)),
-                  importance: ContactImportance.High,
+                  frequency: ContactFrequency.High,
                 ),
               ]),
             ] //expect
