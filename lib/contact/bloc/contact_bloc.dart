@@ -59,5 +59,22 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
         }
       },
     );
+
+    // This registers an event handler for the CreateContact event.
+    // When a CreateContact event is dispatched, this handler will be executed.
+    on<CreateContact>((event, emit) async {
+      // Try to create a new contact in the repository.
+      try {
+        // Call the createContact method of the contactRepository to create the contact.
+        await contactRepository.createContact(event.contact);
+        // Call the getContacts method of the contactRepository to fetch the updated list of contacts.
+        final contacts = await contactRepository.getContacts();
+        // Emit the ContactsLoaded state with the updated contacts list to indicate success.
+        emit(ContactsLoaded(contacts));
+      } catch (e) {
+        // If an error occurs during creation, emit the ContactsError state with the error message.
+        emit(ContactsError(message: e.toString()));
+      }
+    });
   }
 }

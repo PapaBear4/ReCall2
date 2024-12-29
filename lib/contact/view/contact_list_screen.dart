@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ReCall2/contact/bloc/contact_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ReCall2/utils/date_time_helper.dart';
+import 'package:ReCall2/contact/view/contact_edit_screen.dart';
 
 // This widget displays a list of contacts and allows users to interact with them.
 class ContactListScreen extends StatelessWidget {
@@ -52,14 +53,25 @@ class ContactListScreen extends StatelessWidget {
                           'Last Contacted: ${formatLastContacted(contact.lastContacted)}'),
                     ],
                   ),
+                   onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ContactEditScreen(contact: contact),
+                      ),
+                    ),
                   trailing: ElevatedButton(
                     onPressed: () {
                       var updatedLastContacted = DateTime.now();
                       
                       if (updatedLastContacted.isBefore(contact.lastContacted ?? DateTime(1900))) {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Last contacted date was in the future. Setting to now.')));
+                        // Handle future date by setting it to now and notifying user.
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Last contacted date was in the future. Setting to now.'),
+                          ),
+                        );
                       }
-
+                      
                       context.read<ContactBloc>().add(UpdateContact(
                               contact.copyWith(
                                 lastContacted: updatedLastContacted,
@@ -96,10 +108,16 @@ class ContactListScreen extends StatelessWidget {
               .read<ContactBloc>()
               .add(const FetchContacts()); // Refresh the contact list.
         },
-        // Display a refresh icon on the button.
-        child: const Icon(Icons
-            .refresh), // Display a refresh icon on the floating action button.
-      ), // Display a floating action button to refresh the contact list.
+          child:  IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () => Navigator.push(
+                context,
+              MaterialPageRoute(
+                builder: (context) => const ContactEditScreen(),
+                ),
+              ),
+          ),
+        ), // Display a floating action button to refresh the contact list.
     ); // Return a Scaffold widget that displays the contact list screen.
   }
 }

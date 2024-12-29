@@ -38,22 +38,6 @@ class UpdateContact extends ContactEvent {
   @override
   List<Object> get props => [contact]; 
 }
-
-// This event is used to create a new contact.
-class CreateContact extends ContactEvent {
-  // The contact object to be created.
-  final Contact contact; 
-
-  // Constructor for the CreateContact event.
-  const CreateContact(this.contact);
-
-  // This method overrides the props method of the Equatable class.
-  // It returns a list containing the contact object, which is used for comparison.
-
-  @override
-  List<Object> get props => [contact]; 
-}
-
 // This event is used to delete a contact by its ID.
 class DeleteContact extends ContactEvent {
   // The ID of the contact to be deleted.
@@ -92,4 +76,19 @@ class LoadDummyContacts extends ContactEvent {
   // It returns a list containing the number of contacts, which is used for comparison.
   @override
   List<Object> get props => [numberOfContacts]; 
+}
+
+// This event is used to create a new contact.
+class CreateContact extends ContactEvent {
+  // The contact object to be created.
+  final Contact contact; 
+
+  // Constructor for the CreateContact event.
+  const CreateContact(this.contact);
+
+  // This method overrides the props method of the Equatable class.
+  // It returns a list containing the contact object, which is used for comparison.
+
+  @override
+  List<Object> get props => [contact]; 
 }
