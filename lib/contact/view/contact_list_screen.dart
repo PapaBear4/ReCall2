@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:ReCall2/contact/models/contact.dart';
 
 class ContactListScreen extends StatelessWidget {
+  const ContactListScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +56,7 @@ class ContactListScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<ContactBloc>().add(FetchContacts());
+          context.read<ContactBloc>().add(const FetchContacts());
         },
         child: const Icon(Icons.refresh),
       ),
