@@ -40,7 +40,7 @@ class ContactRepository {
       ),
     ];
 
-    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
+    await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
 
     print("Contacts from getContacts(): $dummyContacts"); // Print to console
     return dummyContacts;

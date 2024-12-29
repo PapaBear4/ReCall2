@@ -36,7 +36,7 @@ class ReCall2 extends StatelessWidget {
           ..add(const FetchContacts()),
         // This specifies the child widget of the BlocProvider, which is ContactListScreen in this case.
         // This means that ContactListScreen and its descendant widgets will have access to the ContactBloc instance.
-        child: ContactListScreen(),
+        child: const ContactListScreen(),
       ),
     );
   }

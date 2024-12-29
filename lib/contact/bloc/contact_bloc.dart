@@ -12,7 +12,7 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
   final ContactRepository contactRepository;
 
   // Constructor for the ContactBloc, which initializes the bloc with the provided ContactRepository and sets the initial state to ContactInitial.
-  ContactBloc({required this.contactRepository}) : super(ContactInitial()) {
+  ContactBloc({required this.contactRepository}) : super(const ContactInitial()) {
     // This registers an event handler for the FetchContacts event.
     // When a FetchContacts event is dispatched, this handler will be executed.
     on<FetchContacts>(
