@@ -47,7 +47,7 @@ class ContactListScreen extends StatelessWidget {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(DateFormat('MM/dd/yyyy').format(contact.birthday)),
+                      Text('Bday: ${DateFormat('MM/dd').format(contact.birthday)}'),
                       Text (
                           'Last Contacted: ${formatLastContacted(contact.lastContacted)}'),
                     ],
@@ -57,18 +57,8 @@ class ContactListScreen extends StatelessWidget {
                       var updatedLastContacted = DateTime.now();
                       
                       if (updatedLastContacted.isBefore(contact.lastContacted ?? DateTime(1900))) {
-                        // Handle future date by setting it to now and notifying user.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Last contacted date was in the future. Setting to now.'),
-                          ),
-                        );
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Last contacted date was in the future. Setting to now.')));
                       }
-                      
-                      // Update UI to display 'Today' immediately
-                      // This utilizes the date_time_helper and displays the
-                      // formatted date, in this case 'Today'.
-                      'Last Contacted: ${formatLastContacted(DateTime.now())}';
 
                       context.read<ContactBloc>().add(UpdateContact(
                               contact.copyWith(
