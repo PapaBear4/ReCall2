@@ -106,5 +106,12 @@ class ContactRepository {
     Future<void> deleteContact(int id) async {
         dummyContacts.removeWhere((contact) => contact.id == id);
   }
+  
+  Future<void> updateContact(Contact updatedContact) async {
+    final index = dummyContacts.indexWhere((contact) => contact.id == updatedContact.id);
+    if (index != -1) {
+      dummyContacts[index] = updatedContact;
+    }
+  }
 
 }

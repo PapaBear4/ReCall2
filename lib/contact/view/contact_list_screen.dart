@@ -48,7 +48,7 @@ class ContactListScreen extends StatelessWidget {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Bday: ${DateFormat('MM/dd').format(contact.birthday)}'),
+                      Text('Birthday: ${DateFormat('MM/dd').format(contact.birthday)}'),
                       Text (
                           'Last Contacted: ${formatLastContacted(contact.lastContacted)}'),
                     ],
@@ -79,7 +79,7 @@ class ContactListScreen extends StatelessWidget {
                             ),
                           );
                     },
-                    child: const Text('Update'),
+                    child: const Text('Contacted'),
                   ),
                 );
               },

@@ -38,25 +38,18 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
     // When an UpdateContact event is dispatched, this handler will be executed.
     on<UpdateContact>(
       // Event handler function that takes the event and an emit function as parameters.
-      (event, emit) async {
-        // Check if the current state is ContactsLoaded.
-        if (state is ContactsLoaded) {
-          // If the current state is ContactsLoaded, update the contacts list with the new contact.
-          final updatedContacts = (state as ContactsLoaded)
-              .contacts
-              .map(
-                // Iterate through the existing contacts.
-                (c) {
-                  // If the current contact's ID matches the ID of the contact to be updated, replace it with the new contact.
-                  // Otherwise, keep the existing contact.
-                  return c.id == event.contact.id ? event.contact : c;
-                },
-              )
-              // Convert the updated contacts back to a list.
-              .toList();
-          // Emit the ContactsLoaded state with the updated contacts list.
-          emit(ContactsLoaded(updatedContacts));
-        }
+      (event, emit) async {        
+        try {
+          // Call the updateContact method of the contactRepository to update the contact.
+          await contactRepository.updateContact(event.contact);
+          // Call the getContacts method of the contactRepository to fetch the updated list of contacts.
+          final contacts = await contactRepository.getContacts();
+          // Emit the ContactsLoaded state with the updated contacts list to indicate success.
+          emit(ContactsLoaded(contacts));
+        } catch (e) {
+          // If an error occurs during the update, emit the ContactsError state with the error message.
+          emit(ContactsError(message: e.toString()));
+        }        
       },
     );
 
