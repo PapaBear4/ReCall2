@@ -61,13 +61,16 @@ class Contact extends Equatable {
 
   // Override the props method from Equatable to define the properties used for comparison
   @override
-  List<Object?> get props => [
-        id,
-        firstName,
-        lastName,
-        birthday,
-        frequency,
-        lastContacted,
-        /* ... other fields*/
-      ];
+  List<Object?> get props {
+    print('Contact props: [id: $id, firstName: $firstName, lastName: $lastName, birthday: $birthday, frequency: $frequency, lastContacted: $lastContacted]');
+    return [
+      id,
+      firstName,
+      lastName,
+      birthday,
+      frequency,
+      lastContacted,
+      /* ... other fields*/
+    ];
+  }
 }
