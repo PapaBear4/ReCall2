@@ -49,31 +49,35 @@ class ContactListScreen extends StatelessWidget {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Birthday: ${DateFormat('MM/dd').format(contact.birthday)}'),
-                      Text (
+                      Text(
+                          'Birthday: ${DateFormat('MM/dd').format(contact.birthday)}'),
+                      Text(
                           'Last Contacted: ${formatLastContacted(contact.lastContacted)}'),
                     ],
-                  ),                  
-                  onTap: () {
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute(builder: (context) => ContactEditScreen(contact: contact)),
-                    );
-                  },
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) =>
+                            ContactEditScreen(contact: contact)),
+                  ),
                   trailing: ElevatedButton(
                     onPressed: () {
                       var updatedLastContacted = DateTime.now();
-                      
-                      if (updatedLastContacted.isBefore(contact.lastContacted ?? DateTime(1900))) {
+
+                      if (updatedLastContacted
+                          .isBefore(contact.lastContacted ?? DateTime(1900))) {
                         // Handle future date by setting it to now and notifying user.
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Last contacted date was in the future. Setting to now.'),
+                            content: Text(
+                                'Last contacted date was in the future. Setting to now.'),
                           ),
                         );
                       }
-                      
-                      context.read<ContactBloc>().add(UpdateContact(
+
+                      context.read<ContactBloc>().add(
+                            UpdateContact(
                               contact.copyWith(
                                 lastContacted: updatedLastContacted,
                               ),
@@ -106,18 +110,17 @@ class ContactListScreen extends StatelessWidget {
         onPressed: () {
           // Dispatch a FetchContacts event to the ContactBloc to refresh the list.
           context
-            .read<ContactBloc>()
-            .add(const FetchContacts()); // Refresh the contact list.
+              .read<ContactBloc>()
+              .add(const FetchContacts()); // Refresh the contact list.
         },
         child: IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ContactEditScreen(),
-            ),
-          ),
-        ),
+            icon: const Icon(Icons.add),
+            onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) =>
+                          ContactEditScreen()),
+                )),
       ), // Display a floating action button to refresh the contact list.
     ); // Return a Scaffold widget that displays the contact list screen.
   }

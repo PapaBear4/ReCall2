@@ -12,7 +12,7 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
   final ContactRepository contactRepository;
 
   // Constructor for the ContactBloc, which initializes the bloc with the provided ContactRepository and sets the initial state to ContactInitial.
-  ContactBloc({required this.contactRepository}) : super(const ContactInitial()) {
+  ContactBloc({required this.contactRepository}) : super(ContactsLoading()) {
     // This registers an event handler for the FetchContacts event.
     // When a FetchContacts event is dispatched, this handler will be executed.
     on<FetchContacts>(
@@ -24,8 +24,8 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
         try {
           // Call the getContacts method of the contactRepository to fetch the contacts.
           final contacts = await contactRepository.getContacts();
-          // Emit the ContactsLoaded state with the fetched contacts to indicate that the contacts have been loaded successfully..
-          emit(ContactsLoaded([...contacts]));
+          // Emit the ContactsLoaded state with the fetched contacts and null selected contact to indicate that the contacts have been loaded successfully.
+          emit(ContactsLoaded(contacts: contacts, selectedContact: null));
           // If an error occurs during the process, catch the error and emit the ContactsError state with the error message.
         } catch (e) {
           // Emit the ContactsError state with the error message.
@@ -37,24 +37,24 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
     // This registers an event handler for the UpdateContact event.
     // When an UpdateContact event is dispatched, this handler will be executed.
     on<UpdateContact>(
-      // Event handler function that takes the event and an emit function as parameters.
-      (event, emit) async {        
-        try {
-          // Call the updateContact method of the contactRepository to update the contact.
-          //print('Updated Contact: ${event.contact}');
-          await contactRepository.updateContact(event.contact);          
-          //print('Contact updated: ${event.contact}');
-          // Call the getContacts method of the contactRepository to fetch the updated list of contacts.
-          final contacts = await contactRepository.getContacts();
-          //print('Fetched updated contacts');
-          // Emit the ContactsLoaded state with the updated contacts list to indicate success.
-          emit(ContactsLoaded([...contacts]));
-        } catch (e) {
-          // If an error occurs during the update, emit the ContactsError state with the error message.
-          emit(ContactsError(message: e.toString()));
-        }        
-      },
-    );
+        // Event handler function that takes the event and an emit function as parameters.
+        (event, emit) async {
+      try {
+        if (state is ContactsLoaded) {
+          final currentState = state as ContactsLoaded;
+          final updatedContacts = currentState.contacts
+              .map((contact) =>
+                  contact.id == event.contact.id ? event.contact : contact)
+              .toList();
+          await contactRepository.updateContact(event.contact);
+          emit(ContactsLoaded(
+              contacts: updatedContacts, selectedContact: null));
+        }
+      } catch (e) {
+        // If an error occurs during the update, emit the ContactsError state with the error message.
+        emit(ContactsError(message: e.toString()));
+      }
+    });
 
     // This registers an event handler for the CreateContact event.
     // When a CreateContact event is dispatched, this handler will be executed.
@@ -63,14 +63,44 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
       try {
         // Call the createContact method of the contactRepository to create the contact.
         await contactRepository.createContact(event.contact);
-        // Call the getContacts method of the contactRepository to fetch the updated list of contacts.
-        final contacts = await contactRepository.getContacts();
-        // Emit the ContactsLoaded state with the updated contacts list to indicate success.
-        emit(ContactsLoaded(contacts));
+        if (state is ContactsLoaded) {
+          final currentState = state as ContactsLoaded;
+          final updatedContacts = [...currentState.contacts, event.contact];
+          emit(ContactsLoaded(
+              contacts: updatedContacts, selectedContact: null));
+        }
       } catch (e) {
         // If an error occurs during creation, emit the ContactsError state with the error message.
         emit(ContactsError(message: e.toString()));
       }
     });
+
+    on<DeleteContact>((event, emit) async {
+      try {
+        if (state is ContactsLoaded) {
+          final currentState = state as ContactsLoaded;
+          final updatedContacts = currentState.contacts
+              .where((contact) => contact.id != event.contact.id)
+              .toList();
+          await contactRepository.deleteContact(event.contact);
+          emit(ContactsLoaded(
+              contacts: updatedContacts, selectedContact: null));
+        }
+      } catch (e) {
+        emit(ContactsError(message: e.toString()));
+      }
+    });
+
+    on<SelectContact>((event, emit) {
+      if (state is ContactsLoaded) {
+        final currentState = state as ContactsLoaded;
+        emit(ContactsLoaded(
+            contacts: currentState.contacts, selectedContact: event.contact));
+      }
+    });
+
+    on<ClearSelection>((event, emit) => emit(ContactsLoaded(
+        contacts: (state as ContactsLoaded).contacts,
+        selectedContact: null)));
   }
 }

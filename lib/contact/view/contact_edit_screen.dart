@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:ReCall2/contact/bloc/contact_bloc.dart';
 import 'package:ReCall2/contact/models/contact.dart';
-import 'package:ReCall2/contact/view/contact_list_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ReCall2/contact/bloc/contact_bloc.dart';
 
 class ContactEditScreen extends StatefulWidget {
   final Contact? contact;
-
+  
   const ContactEditScreen({super.key, this.contact});
 
   @override
@@ -145,12 +144,12 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: _saveChanges,
                     child: const Text('Save'),
                   ),
                   if (widget.contact != null)
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _deleteContact,
                       child: const Text('Delete'),
                     ),
                 ],
@@ -164,11 +163,24 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
 
 
   void _saveChanges() {
-    return;
+    print('Save changes called');
+    print('Original Contact: ${widget.contact}');
+    final updatedContact = widget.contact?.copyWith(
+      firstName: _firstNameController.text,
+      lastName: _lastNameController.text,
+      birthday: _selectedDate,
+      frequency: _selectedFrequency,
+    );
+    print('Updated Contact: $updatedContact');
+    if (updatedContact != null) {
+      context.read<ContactBloc>().add(UpdateContact(updatedContact));
+      Navigator.pop(context);
+    }
+
   }
 
 
   void _deleteContact() {
-    return;
+    print('Delete button pressed');
   }
 }
