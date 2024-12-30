@@ -1,5 +1,6 @@
 String formatLastContacted(DateTime? lastContacted) {
   if (lastContacted == null) {
+    print('Last Contacted: null'); // Print for debugging
     return 'Never Contacted';
   }
 

@@ -88,30 +88,31 @@ class ContactRepository {
 
   Future<List<Contact>> getContacts() async {
     await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
-    print("Contacts from getContacts(): $dummyContacts"); // Print to console
+    //print("Contacts from getContacts(): $dummyContacts"); // Print to console
     return dummyContacts;
   }
 
   Future<void> createContact(Contact contact) async {
     // Find the highest existing ID
-      final highestId = dummyContacts.isNotEmpty
-          ? dummyContacts.map((c) => c.id).reduce(max)
-          : 0;
+    final highestId = dummyContacts.isNotEmpty
+        ? dummyContacts.map((c) => c.id).reduce(max)
+        : 0;
 
-      // Generate a new unique ID
-      final newId = highestId + 1;
+    // Generate a new unique ID
+    final newId = highestId + 1;
 
     dummyContacts.add(contact.copyWith(id: newId));
   }
-    Future<void> deleteContact(int id) async {
-        dummyContacts.removeWhere((contact) => contact.id == id);
+
+  Future<void> deleteContact(int id) async {
+    dummyContacts.removeWhere((contact) => contact.id == id);
   }
-  
+
   Future<void> updateContact(Contact updatedContact) async {
-    final index = dummyContacts.indexWhere((contact) => contact.id == updatedContact.id);
+    final index =
+        dummyContacts.indexWhere((contact) => contact.id == updatedContact.id);
     if (index != -1) {
       dummyContacts[index] = updatedContact;
     }
   }
-
 }
