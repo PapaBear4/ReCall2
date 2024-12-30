@@ -145,16 +145,12 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                     _saveChanges(context);
-                    },
+                    onPressed: () {},
                     child: const Text('Save'),
                   ),
                   if (widget.contact != null)
                     ElevatedButton(
-                      onPressed: () {
-                        _deleteContact(context);
-                      },
+                      onPressed: () {},
                       child: const Text('Delete'),
                     ),
                 ],
@@ -167,70 +163,12 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
   }
 
 
-  void _saveChanges(BuildContext context) {
-    if (_formKey.currentState!.validate()) {
-      print('Original Contact: ${widget.contact}'); 
-      final newContact = Contact(
-        id: widget.contact?.id ?? 0,
-        firstName: _firstNameController.text,
-        lastName: _lastNameController.text,
-        birthday: _selectedDate!,
-        frequency: _selectedFrequency!,
-        lastContacted: widget.contact?.lastContacted, 
-      );
-      
-      print('Updated Contact: $newContact');
-
-      // Dispatch the appropriate event to the ContactBloc
-      if (widget.contact == null) {
-            context.read<ContactBloc>().add(CreateContact(newContact));
-          }
-        else {
-            context.read<ContactBloc>().add(UpdateContact(newContact));
-          }
-
-      // Show a snackbar indicating that changes were saved
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Changes Saved'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-
-      // Navigate back to the list screen using pushReplacement to refresh the list
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const ContactListScreen()));
-    }
+  void _saveChanges() {
+    return;
   }
 
 
-  void _deleteContact(BuildContext context) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Delete Contact?'),
-          content: const Text('Are you sure you want to delete this contact?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('No'),
-            ),
-            TextButton(
-              onPressed: () {
-                context.read<ContactBloc>().add(DeleteContact(widget.contact!.id));
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Contact Deleted'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => const ContactListScreen()));
-              },
-              child: const Text('Yes'),
-            ),
-          ],
-        ),
-      );
+  void _deleteContact() {
+    return;
   }
 }
