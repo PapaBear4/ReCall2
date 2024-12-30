@@ -20,6 +20,7 @@ class ContactListScreen extends StatelessWidget {
       // BlocBuilder listens for changes in the ContactBloc's state and rebuilds the UI accordingly.
       body: BlocBuilder<ContactBloc, ContactState>(
         builder: (context, state) {
+          print('Rebuilding ContactListScreen');
           // If the state is ContactsLoading, display a loading indicator.
           if (state is ContactsLoading) {
             return const Center(

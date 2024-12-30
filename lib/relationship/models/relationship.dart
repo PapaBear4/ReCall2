@@ -23,4 +23,20 @@ class Relationship extends Equatable {
         startDate,
         endDate,
       ];
+
+  Relationship copyWith({
+    String? contact1Id,
+    String? contact2Id,
+    String? relationshipType,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) {
+    return Relationship(
+      contact1Id: contact1Id ?? this.contact1Id,
+      contact2Id: contact2Id ?? this.contact2Id,
+      relationshipType: relationshipType ?? this.relationshipType,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+    );
+  }
 }

@@ -87,7 +87,7 @@ class ContactRepository {
   ];
 
   Future<List<Contact>> getContacts() async {
-    await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
+    await Future.delayed(const Duration(microseconds: 500)); // Simulate network delay
     //print("Contacts from getContacts(): $dummyContacts"); // Print to console
     return dummyContacts;
   }

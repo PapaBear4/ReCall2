@@ -25,7 +25,7 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
           // Call the getContacts method of the contactRepository to fetch the contacts.
           final contacts = await contactRepository.getContacts();
           // Emit the ContactsLoaded state with the fetched contacts to indicate that the contacts have been loaded successfully..
-          emit(ContactsLoaded(contacts));
+          emit(ContactsLoaded([...contacts]));
           // If an error occurs during the process, catch the error and emit the ContactsError state with the error message.
         } catch (e) {
           // Emit the ContactsError state with the error message.
@@ -41,11 +41,14 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
       (event, emit) async {        
         try {
           // Call the updateContact method of the contactRepository to update the contact.
-          await contactRepository.updateContact(event.contact);
+          print('Updated Contact: ${event.contact}');
+          await contactRepository.updateContact(event.contact);          
+          print('Contact updated: ${event.contact}');
           // Call the getContacts method of the contactRepository to fetch the updated list of contacts.
           final contacts = await contactRepository.getContacts();
+          print('Fetched updated contacts');
           // Emit the ContactsLoaded state with the updated contacts list to indicate success.
-          emit(ContactsLoaded(contacts));
+          emit(ContactsLoaded([...contacts]));
         } catch (e) {
           // If an error occurs during the update, emit the ContactsError state with the error message.
           emit(ContactsError(message: e.toString()));
