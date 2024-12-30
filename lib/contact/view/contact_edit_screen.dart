@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ReCall2/contact/bloc/contact_bloc.dart';
 import 'package:ReCall2/contact/models/contact.dart';
+import 'package:ReCall2/contact/view/contact_list_screen.dart';
 
 class ContactEditScreen extends StatefulWidget {
   final Contact? contact;
@@ -42,48 +43,17 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: WillPopScope(
-          onWillPop: () async {
-            if (_formKey.currentState!.validate()) {
-              if (_firstNameController.text != widget.contact?.firstName ||
-                  _lastNameController.text != widget.contact?.lastName ||
-                  _selectedDate != widget.contact?.birthday ||
-                  _selectedFrequency != widget.contact?.frequency) {
-                return await showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Unsaved Changes'),
-                        content: const Text('You have unsaved changes. Do you want to discard or save them?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(false); // Discard changes and pop
-                            },
-                            child: const Text('Discard'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              _saveChanges(context); // Save changes and pop
-                              Navigator.of(context).pop(false);
-                            },
-                            child: const Text('Save'),
-                          ),
-                        ],
-                      ),
-                    ) ??
-                    false; // If dialog is dismissed, prevent default back behavior
-              } else {
-                return true; // If no changes, allow popping
-              }
-            }
-            return true;
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Changes Discarded'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+            Navigator.pop(context);
           },
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
         ),
         title: Text(widget.contact == null ? 'Create Contact' : 'Edit Contact'),
       ),
@@ -199,21 +169,37 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
 
   void _saveChanges(BuildContext context) {
     if (_formKey.currentState!.validate()) {
+      print('Original Contact: ${widget.contact}'); 
       final newContact = Contact(
-          id: widget.contact?.id ?? 0,
-          firstName: _firstNameController.text,
-          lastName: _lastNameController.text,
-          birthday: _selectedDate!,
-          frequency: _selectedFrequency!,
-          lastContacted: null
-          );
-        if (widget.contact == null) {
+        id: widget.contact?.id ?? 0,
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        birthday: _selectedDate!,
+        frequency: _selectedFrequency!,
+        lastContacted: widget.contact?.lastContacted, 
+      );
+      
+      print('Updated Contact: $newContact');
+
+      // Dispatch the appropriate event to the ContactBloc
+      if (widget.contact == null) {
             context.read<ContactBloc>().add(CreateContact(newContact));
           }
         else {
             context.read<ContactBloc>().add(UpdateContact(newContact));
-        }
-      Navigator.pop(context); // Close the edit screen
+          }
+
+      // Show a snackbar indicating that changes were saved
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Changes Saved'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      // Navigate back to the list screen using pushReplacement to refresh the list
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const ContactListScreen()));
     }
   }
 
@@ -230,9 +216,16 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
               child: const Text('No'),
             ),
             TextButton(
-              onPressed: () {               
-                context.read<ContactBloc>().add(DeleteContact(widget.contact!.id));                
-                Navigator.pop(context); // Close the edit screen
+              onPressed: () {
+                context.read<ContactBloc>().add(DeleteContact(widget.contact!.id));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Contact Deleted'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => const ContactListScreen()));
               },
               child: const Text('Yes'),
             ),

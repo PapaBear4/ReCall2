@@ -41,12 +41,12 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
       (event, emit) async {        
         try {
           // Call the updateContact method of the contactRepository to update the contact.
-          print('Updated Contact: ${event.contact}');
+          //print('Updated Contact: ${event.contact}');
           await contactRepository.updateContact(event.contact);          
-          print('Contact updated: ${event.contact}');
+          //print('Contact updated: ${event.contact}');
           // Call the getContacts method of the contactRepository to fetch the updated list of contacts.
           final contacts = await contactRepository.getContacts();
-          print('Fetched updated contacts');
+          //print('Fetched updated contacts');
           // Emit the ContactsLoaded state with the updated contacts list to indicate success.
           emit(ContactsLoaded([...contacts]));
         } catch (e) {

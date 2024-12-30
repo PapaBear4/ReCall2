@@ -53,13 +53,13 @@ class ContactListScreen extends StatelessWidget {
                       Text (
                           'Last Contacted: ${formatLastContacted(contact.lastContacted)}'),
                     ],
-                  ),
-                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ContactEditScreen(contact: contact),
-                      ),
-                    ),
+                  ),                  
+                  onTap: () {
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) => ContactEditScreen(contact: contact)),
+                    );
+                  },
                   trailing: ElevatedButton(
                     onPressed: () {
                       var updatedLastContacted = DateTime.now();
@@ -106,19 +106,19 @@ class ContactListScreen extends StatelessWidget {
         onPressed: () {
           // Dispatch a FetchContacts event to the ContactBloc to refresh the list.
           context
-              .read<ContactBloc>()
-              .add(const FetchContacts()); // Refresh the contact list.
+            .read<ContactBloc>()
+            .add(const FetchContacts()); // Refresh the contact list.
         },
-          child:  IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => Navigator.push(
-                context,
-              MaterialPageRoute(
-                builder: (context) => const ContactEditScreen(),
-                ),
-              ),
+        child: IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ContactEditScreen(),
+            ),
           ),
-        ), // Display a floating action button to refresh the contact list.
+        ),
+      ), // Display a floating action button to refresh the contact list.
     ); // Return a Scaffold widget that displays the contact list screen.
   }
 }
