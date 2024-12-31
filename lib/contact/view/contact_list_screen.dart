@@ -58,8 +58,6 @@ class ContactListScreen extends StatelessWidget {
                     ],
                   ),                  
                   onTap: () {
-                    // Dispatch a SelectContact event when a contact is tapped.
-                    context.read<ContactBloc>().add(SelectContact(contact));
                     // Navigate to ContactEditScreen.
                     Navigator.push(
                       context,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ReCall2/contact/models/contact.dart';
+import 'package:ReCall2/repositories/contact_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ReCall2/contact/bloc/contact_bloc.dart';
+import 'package:ReCall2/contact/bloc/contact_details_bloc.dart';
+import 'package:ReCall2/contact/bloc/contact_details_event.dart';
 
 class ContactEditScreen extends StatefulWidget {
   final Contact? contact;
@@ -40,6 +42,22 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ContactDetailsBloc(
+        contactRepository: context.read<ContactRepository>(),
+      )..add(LoadContactDetails(contact: widget.contact)),
+      child: BlocListener<ContactDetailsBloc, ContactDetailsState>(
+        listener: (context, state) {
+          if (state is ContactDetailsLoaded && state.contact == null) {
+            Navigator.pop(context);
+          }
+        },
+        child: _buildScaffold(context),
+      ),
+    );
+  }
+
+  Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -166,30 +184,29 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
     if (_formKey.currentState!.validate()) {
       if (widget.contact == null) {
         // Create new contact
-        final newContact = Contact(
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            birthday: _selectedDate ?? DateTime.now(),
-            frequency: _selectedFrequency ?? ContactFrequency.Never,
+        final contact = Contact(
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          birthday: _selectedDate ?? DateTime.now(),
+          frequency: _selectedFrequency ?? ContactFrequency.Never,
         );
-        context.read<ContactBloc>().add(AddContact(newContact));
+        context.read<ContactDetailsBloc>().add(UpdateContactDetails(contact: contact));
       } else {
         // Update existing contact
-        final updatedContact = widget.contact!.copyWith(
+        final contact = widget.contact!.copyWith(
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
           birthday: _selectedDate,
           frequency: _selectedFrequency,
         );
-        context.read<ContactBloc>().add(UpdateContact(updatedContact));
+        context.read<ContactDetailsBloc>().add(UpdateContactDetails(contact: contact));
       }
-      Navigator.pop(context);
     }
   }
 
 
   void _deleteContact() {
-    context.read<ContactBloc>().add(DeleteContact(widget.contact!));
-    Navigator.pop(context);
+    context.read<ContactDetailsBloc>().add(DeleteContactDetails(contact: widget.contact!));
   }
 }
+
