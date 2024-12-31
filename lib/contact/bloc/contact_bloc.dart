@@ -48,7 +48,10 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
               .toList();
           await contactRepository.updateContact(event.contact);
           emit(ContactsLoaded(
-              contacts: updatedContacts, selectedContact: null));
+              contacts: updatedContacts,
+              selectedContact: currentState.selectedContact?.id == event.contact.id
+                  ? event.contact
+                  : currentState.selectedContact));
         }
       } catch (e) {
         // If an error occurs during the update, emit the ContactsError state with the error message.
@@ -58,22 +61,26 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
 
     // This registers an event handler for the CreateContact event.
     // When a CreateContact event is dispatched, this handler will be executed.
-    on<CreateContact>((event, emit) async {
+    on<AddContact>(
+      (event, emit) async {
       // Try to create a new contact in the repository.
       try {
         // Call the createContact method of the contactRepository to create the contact.
         await contactRepository.createContact(event.contact);
-        if (state is ContactsLoaded) {
-          final currentState = state as ContactsLoaded;
-          final updatedContacts = [...currentState.contacts, event.contact];
+        final currentState = state as ContactsLoaded;
+        final updatedContacts = [...currentState.contacts, event.contact];
           emit(ContactsLoaded(
-              contacts: updatedContacts, selectedContact: null));
+              contacts: updatedContacts,
+              selectedContact: currentState.selectedContact?.id == event.contact.id
+                  ? event.contact
+                  : currentState.selectedContact));
         }
-      } catch (e) {
+      catch (e) {
         // If an error occurs during creation, emit the ContactsError state with the error message.
         emit(ContactsError(message: e.toString()));
       }
-    });
+    }
+    );
 
     on<DeleteContact>((event, emit) async {
       try {
@@ -82,10 +89,13 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
           final updatedContacts = currentState.contacts
               .where((contact) => contact.id != event.contact.id)
               .toList();
-          await contactRepository.deleteContact(event.contact);
-          emit(ContactsLoaded(
-              contacts: updatedContacts, selectedContact: null));
-        }
+          await contactRepository.deleteContact(event.contact.id!);
+          emit(ContactsLoaded(contacts: updatedContacts, selectedContact: 
+            currentState.selectedContact?.id == event.contact.id
+                ? null
+                : currentState.selectedContact
+          ));
+       }
       } catch (e) {
         emit(ContactsError(message: e.toString()));
       }
@@ -99,8 +109,5 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
       }
     });
 
-    on<ClearSelection>((event, emit) => emit(ContactsLoaded(
-        contacts: (state as ContactsLoaded).contacts,
-        selectedContact: null)));
   }
 }

@@ -1,5 +1,4 @@
 import 'package:ReCall2/contact/models/contact.dart';
-import 'dart:math';
 
 class ContactRepository {
   // Dummy data for contacts.
@@ -95,13 +94,22 @@ class ContactRepository {
   Future<void> createContact(Contact contact) async {
     // Find the highest existing ID
     final highestId = dummyContacts.isNotEmpty
-        ? dummyContacts.map((c) => c.id).reduce(max)
+        ? dummyContacts.length
         : 0;
 
-    // Generate a new unique ID
+    // Generate a new unique ID, ensuring highestId is not null
     final newId = highestId + 1;
 
-    dummyContacts.add(contact.copyWith(id: newId));
+    // Create a new Contact object with the generated ID
+    final newContact = Contact(
+      id: newId,
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      birthday: contact.birthday,
+      frequency: contact.frequency,
+      lastContacted: contact.lastContacted,
+    );
+    dummyContacts.add(newContact);
   }
 
   Future<void> deleteContact(int id) async {

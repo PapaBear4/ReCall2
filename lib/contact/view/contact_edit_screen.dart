@@ -163,24 +163,33 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
 
 
   void _saveChanges() {
-    print('Save changes called');
-    print('Original Contact: ${widget.contact}');
-    final updatedContact = widget.contact?.copyWith(
-      firstName: _firstNameController.text,
-      lastName: _lastNameController.text,
-      birthday: _selectedDate,
-      frequency: _selectedFrequency,
-    );
-    print('Updated Contact: $updatedContact');
-    if (updatedContact != null) {
-      context.read<ContactBloc>().add(UpdateContact(updatedContact));
+    if (_formKey.currentState!.validate()) {
+      if (widget.contact == null) {
+        // Create new contact
+        final newContact = Contact(
+            firstName: _firstNameController.text,
+            lastName: _lastNameController.text,
+            birthday: _selectedDate ?? DateTime.now(),
+            frequency: _selectedFrequency ?? ContactFrequency.Never,
+        );
+        context.read<ContactBloc>().add(AddContact(newContact));
+      } else {
+        // Update existing contact
+        final updatedContact = widget.contact!.copyWith(
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          birthday: _selectedDate,
+          frequency: _selectedFrequency,
+        );
+        context.read<ContactBloc>().add(UpdateContact(updatedContact));
+      }
       Navigator.pop(context);
     }
-
   }
 
 
   void _deleteContact() {
-    print('Delete button pressed');
+    context.read<ContactBloc>().add(DeleteContact(widget.contact!));
+    Navigator.pop(context);
   }
 }

@@ -38,16 +38,16 @@ class DeleteContact extends ContactEvent {
   final Contact contact;
   const DeleteContact(this.contact);
 
-  @override
+  @override 
   List<Object> get props => [contact];
 }
 
 class SelectContact extends ContactEvent {
-  final Contact contact;
+  final Contact? contact;
   const SelectContact(this.contact);
 
   @override
-  List<Object> get props => [contact];
+  List<Object> get props => [contact ?? const Object()];
 }
 
 class ClearSelection extends ContactEvent {

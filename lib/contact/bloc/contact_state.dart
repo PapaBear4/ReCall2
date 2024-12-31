@@ -20,25 +20,6 @@ class ContactInitial extends ContactState {
   const ContactInitial();
 }
 
-// This state represents the bloc being in a loading state, typically
-// when fetching data.
-class ContactLoading extends ContactState {}
-
-// This state represents the successful loading of a single contact.
-class ContactLoaded extends ContactState {
-  // The loaded contact data.
-  final List<Contact> contacts;
-
-  // Constructor for the ContactLoaded state, requiring a list of contacts.
-  const ContactLoaded({required this.contacts});
-
-  // Overrides the props getter to include the contacts list for comparison.
-  // This ensures that two ContactLoaded states are considered equal if
-  // they have the same list of contacts.
-  @override
-  List<Object> get props => [contacts];
-}
-
 // This state represents an error that occurred during a contact operation.
 class ContactError extends ContactState {
   // The error message describing the error.
@@ -62,15 +43,16 @@ class ContactsLoading extends ContactState {}
 class ContactsLoaded extends ContactState {
   // The loaded list of contacts.
   final List<Contact> contacts;
+  final Contact? selectedContact;
 
   // Constructor for the ContactsLoaded state, requiring a list of contacts.
-  const ContactsLoaded(this.contacts);
+  const ContactsLoaded({required this.contacts, this.selectedContact});
 
   // Overrides the props getter to include the contacts list for comparison.
   // This ensures that two ContactsLoaded states are considered equal if
   // they have the same list of contacts.
   @override
-  List<Object> get props => [contacts];
+  List<Object> get props => [contacts, selectedContact ?? const Object()];
 }
 
 // This state represents an error that occurred during a contact operation,

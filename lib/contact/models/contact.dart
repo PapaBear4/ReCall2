@@ -15,7 +15,7 @@ enum ContactFrequency {
 /// Represents a contact with their basic information
 class Contact extends Equatable {
   // Declare final variables to store contact attributes
-  final int id;
+  final int? id;
   final String firstName;
   final String lastName;
 
@@ -28,18 +28,17 @@ class Contact extends Equatable {
 
   // Constructor for the contact class, requiring all attributes to be provided
   const Contact({
-    required this.id,
+    this.id,
     required this.firstName,
     required this.lastName,
     required this.birthday,
     required this.frequency,
-    required this.lastContacted,
+    this.lastContacted,
     // ... other fields
   });
 
   // CopyWith method to create a new contact object with updated attributes
   Contact copyWith({
-    int? id,
     String? firstName,
     String? lastName,
     DateTime? birthday,
@@ -49,7 +48,7 @@ class Contact extends Equatable {
   }) {
     // Return a new contact object with updated values or the original values if null
     return Contact(
-      id: id ?? this.id,
+      id: id,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       birthday: birthday ?? this.birthday,

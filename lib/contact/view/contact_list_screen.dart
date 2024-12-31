@@ -40,6 +40,8 @@ class ContactListScreen extends StatelessWidget {
                 // Get the contact at the current index.
                 final contact = contacts[index];
                 // Build a ListTile to display the contact information.
+                final isSelected = state.selectedContact?.id == contact.id; 
+
                 return ListTile(
                   // Display the contact's full name.
                   title: Text(
@@ -54,13 +56,17 @@ class ContactListScreen extends StatelessWidget {
                       Text(
                           'Last Contacted: ${formatLastContacted(contact.lastContacted)}'),
                     ],
-                  ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) =>
-                            ContactEditScreen(contact: contact)),
-                  ),
+                  ),                  
+                  onTap: () {
+                    // Dispatch a SelectContact event when a contact is tapped.
+                    context.read<ContactBloc>().add(SelectContact(contact));
+                    // Navigate to ContactEditScreen.
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ContactEditScreen(contact: contact)),
+                    );
+                  },
                   trailing: ElevatedButton(
                     onPressed: () {
                       var updatedLastContacted = DateTime.now();
@@ -86,6 +92,7 @@ class ContactListScreen extends StatelessWidget {
                     },
                     child: const Text('Contacted'),
                   ),
+                  tileColor: isSelected ? Colors.blue[100] : Colors.transparent,
                 );
               },
             ); // Display a list of contacts.
